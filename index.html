@@ -1,97 +1,2917 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+  <head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <title>تطبيق ويب</title>
+    
+    <style>
+ 
 
-      <!DOCTYPE html>
-      <html lang="ar" dir="rtl">
-      <head>
-        <meta charset="UTF-8">
-        <title>طارق الإخباري</title>
-        <style>
-          body { font-family: sans-serif; background: #f0f2f5; padding: 20px; direction: rtl; text-align: right; }
-          .container { max-width: 800px; margin: auto; }
-          .header { background: #1a237e; color: white; padding: 20px; text-align: center; border-radius: 10px; }
-          .card { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-right: 5px solid #1a237e; }
-          h2 { color: #1a237e; font-size: 1.2em; }
-          a { color: #d32f2f; text-decoration: none; font-weight: bold; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>🗞️ طارق الإخباري</h1>
-            <p>آخر تحديث: ٣١‏/١‏/٢٠٢٦، ٢:٠٧:٣٥ ص</p>
+ 
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Noto Kufi Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  direction: rtl;
+  text-align: right;
+  overflow-x: hidden;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+ 
+
+:root,
+body.theme-light {
+   
+  --background: #f8f9fa;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --text-tertiary: #888888;
+  --accent: #ff0000;
+  --accent-hover: #cc0000;
+  --border: #e0e0e0;
+  --overlay: rgba(0, 0, 0, 0.5);
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-hover: rgba(0, 0, 0, 0.2);
+  
+   
+  --header-bg: #ffffff;
+  --ticker-bg: #1a1a1a;
+  --ticker-text: #ffffff;
+  --skeleton-base: #e0e0e0;
+  --skeleton-shine: #f5f5f5;
+}
+
+body.theme-dark {
+   
+  --background: #050505;
+  --surface: #0d0d0d;
+  --card: #151515;
+  --text-primary: #e5e5e5;
+  --text-secondary: #a0a0a0;
+  --text-tertiary: #666666;
+  --accent: #ff0000;
+  --accent-hover: #ff3333;
+  --border: #2a2a2a;
+  --overlay: rgba(0, 0, 0, 0.8);
+  --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-hover: rgba(0, 0, 0, 0.5);
+  
+   
+  --header-bg: #0d0d0d;
+  --ticker-bg: #1a1a1a;
+  --ticker-text: #ffffff;
+  --skeleton-base: #1a1a1a;
+  --skeleton-shine: #2a2a2a;
+}
+
+ 
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-primary);
+  margin-bottom: 0.5em;
+}
+
+h1 { font-size: 2.5rem; font-weight: 900; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
+
+p {
+  margin-bottom: 1em;
+  line-height: 1.8;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+strong {
+  font-weight: 700;
+}
+
+ 
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+  .mobile-only {
+    display: block;
+  }
+}
+
+ 
+
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loading-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loading-content {
+  text-align: center;
+}
+
+.loading-logo svg {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  margin: 20px auto;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-top: 10px;
+}
+
+ 
+
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  transition: background-color 0.3s ease;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  gap: 20px;
+}
+
+.header-logo {
+  flex-shrink: 0;
+}
+
+.logo-svg {
+  height: 50px;
+  width: auto;
+  display: block;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+  background: var(--surface);
+}
+
+.nav-link.active {
+  color: var(--accent);
+  background: var(--surface);
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 3px 3px 0 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: var(--surface);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.icon-btn:hover {
+  background: var(--card);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.theme-toggle .sun-icon {
+  display: none;
+}
+
+.theme-toggle .moon-icon {
+  display: block;
+}
+
+body.theme-light .theme-toggle .sun-icon {
+  display: block;
+}
+
+body.theme-light .theme-toggle .moon-icon {
+  display: none;
+}
+
+ 
+.search-bar {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.search-bar.active {
+  max-height: 80px;
+}
+
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 0;
+  position: relative;
+}
+
+.search-input-wrapper svg {
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+#search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+}
+
+#search-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.search-clear {
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 5px;
+  display: none;
+}
+
+#search-input:not(:placeholder-shown) ~ .search-clear {
+  display: block;
+}
+
+ 
+
+.breaking-ticker {
+  background: var(--ticker-bg);
+  color: var(--ticker-text);
+  display: flex;
+  align-items: center;
+  height: 45px;
+  overflow: hidden;
+  border-bottom: 2px solid var(--accent);
+}
+
+.ticker-label {
+  background: var(--accent);
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  border-radius: 50%;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.ticker-content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.ticker-track {
+  display: flex;
+  gap: 40px;
+  animation: scroll-ticker 30s linear infinite;
+  white-space: nowrap;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 0 10px;
+  transition: color 0.2s ease;
+}
+
+.ticker-item:hover {
+  color: var(--accent);
+}
+
+.ticker-separator {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+ 
+
+.main-content {
+  min-height: calc(100vh - 200px);
+  padding: 30px 0;
+}
+
+.main-content .container {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 30px;
+}
+
+@media (max-width: 1024px) {
+  .main-content .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.view {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.view.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+ 
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+ 
+.article-card:first-child {
+  grid-column: 1 / 3;
+  grid-row: 1 / 3;
+}
+
+.article-card:first-child .card-image {
+  height: 400px;
+}
+
+.article-card:first-child .card-title {
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+ 
+.article-card:nth-child(2),
+.article-card:nth-child(3) {
+  grid-column: 3 / 4;
+}
+
+ 
+.article-card:nth-child(n+4) {
+  grid-column: span 1;
+}
+
+@media (max-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .article-card:first-child {
+    grid-column: 1 / 3;
+  }
+  
+  .article-card:nth-child(2),
+  .article-card:nth-child(3) {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .article-card:first-child,
+  .article-card:nth-child(2),
+  .article-card:nth-child(3) {
+    grid-column: 1;
+  }
+  
+  .article-card:first-child .card-image {
+    height: 250px;
+  }
+  
+  .article-card:first-child .card-title {
+    font-size: 1.5rem;
+  }
+}
+
+ 
+
+.article-card {
+  background: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px var(--shadow-hover);
+}
+
+.card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  position: relative;
+  background: var(--skeleton-base);
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.article-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.card-category {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--accent);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.card-tags {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  z-index: 10;
+}
+
+.card-tag {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  backdrop-filter: blur(10px);
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-description {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border);
+}
+
+.card-source {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.source-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.card-time {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+ 
+
+.article-reader {
+  background: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.reader-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 15px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.back-btn:hover {
+  background: var(--surface);
+}
+
+.reader-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.share-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: var(--surface);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.share-btn:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.reader-hero {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.reader-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: fadeInImage 0.5s ease;
+}
+
+@keyframes fadeInImage {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.reader-category-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--accent);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+}
+
+.reader-body {
+  padding: 40px;
+}
+
+.reader-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+
+.reader-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 30px;
+}
+
+.reader-source {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reader-source-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  padding: 5px;
+}
+
+.reader-source-name {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.reader-time {
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
+}
+
+.reader-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.reader-tag {
+  background: var(--surface);
+  color: var(--text-primary);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.reader-tag:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.reader-content {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+  margin-bottom: 40px;
+}
+
+.reader-content p {
+  margin-bottom: 1.5em;
+}
+
+.reader-content h2,
+.reader-content h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.reader-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.reader-content a.disabled-link {
+  color: var(--text-secondary);
+  pointer-events: none;
+  text-decoration: line-through;
+}
+
+ 
+.editorial-box {
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 25px;
+  margin: 40px 0;
+}
+
+.editorial-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 15px;
+}
+
+.editorial-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.editorial-team {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+}
+
+.source-attribution {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding: 15px;
+  background: var(--background);
+  border-radius: 8px;
+}
+
+.source-attribution .label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.source-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  font-weight: 600;
+  padding: 8px 15px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.source-link:hover {
+  background: var(--card);
+  color: var(--accent);
+}
+
+.source-logo {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.publish-date {
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .reader-body {
+    padding: 20px;
+  }
+  
+  .reader-title {
+    font-size: 1.75rem;
+  }
+  
+  .reader-hero {
+    height: 250px;
+  }
+  
+  .reader-content {
+    font-size: 1rem;
+  }
+}
+
+ 
+
+.sidebar {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.widget {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.widget-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--accent);
+}
+
+.widget-title svg {
+  color: var(--accent);
+}
+
+.live-dot-small {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+ 
+.trending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.trending-item {
+  display: flex;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.trending-item:hover {
+  background: var(--surface);
+}
+
+.trending-thumbnail {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.trending-content {
+  flex: 1;
+}
+
+.trending-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.trending-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--accent);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+ 
+.latest-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-right: 3px solid transparent;
+}
+
+.timeline-item:hover {
+  background: var(--surface);
+  border-right-color: var(--accent);
+}
+
+.timeline-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.timeline-content {
+  flex: 1;
+}
+
+.timeline-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.timeline-time {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+}
+
+ 
+.categories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border);
+}
+
+.category-item:hover {
+  background: var(--surface);
+  border-color: var(--accent);
+}
+
+.category-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.category-count {
+  background: var(--accent);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+ 
+
+.load-more-container {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.load-more-btn {
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  color: var(--text-primary);
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.load-more-btn:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--shadow-hover);
+}
+
+ 
+
+.skeleton {
+  background: var(--skeleton-base);
+  background-image: linear-gradient(
+    90deg,
+    var(--skeleton-base) 0%,
+    var(--skeleton-shine) 50%,
+    var(--skeleton-base) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-card {
+  background: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.skeleton-image {
+  width: 100%;
+  height: 200px;
+  background: var(--skeleton-base);
+}
+
+.skeleton-content {
+  padding: 20px;
+}
+
+.skeleton-title {
+  height: 24px;
+  width: 80%;
+  margin-bottom: 12px;
+}
+
+.skeleton-description {
+  height: 16px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.skeleton-meta {
+  height: 16px;
+  width: 50%;
+  margin-top: 15px;
+}
+
+ 
+
+.main-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+  padding: 50px 0 20px;
+}
+
+.footer-main {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 1024px) {
+  .footer-main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+.footer-column h3,
+.footer-column h4 {
+  margin-bottom: 20px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.footer-description {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 10px;
+}
+
+.footer-social a {
+  width: 40px;
+  height: 40px;
+  background: var(--card);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.footer-social a:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateY(-3px);
+}
+
+.footer-title {
+  font-size: 1.125rem;
+  color: var(--text-primary);
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links a {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+  transform: translateX(-5px);
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: inherit;
+  outline: none;
+}
+
+.newsletter-form button {
+  width: 45px;
+  height: 45px;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.newsletter-form button:hover {
+  background: var(--accent-hover);
+  transform: scale(1.05);
+}
+
+.live-visitors {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.footer-bottom {
+  padding-top: 30px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.copyright,
+.attribution-notice {
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+ 
+
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--header-bg);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.mobile-nav-item {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.75rem;
+  border-radius: 8px;
+}
+
+.mobile-nav-item.active {
+  color: var(--accent);
+  background: var(--surface);
+}
+
+.mobile-nav-item svg {
+  width: 24px;
+  height: 24px;
+}
+
+#mobile-theme-toggle .sun-icon {
+  display: none;
+}
+
+#mobile-theme-toggle .moon-icon {
+  display: block;
+}
+
+body.theme-light #mobile-theme-toggle .sun-icon {
+  display: block;
+}
+
+body.theme-light #mobile-theme-toggle .moon-icon {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .mobile-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 70px;
+  }
+}
+
+ 
+
+.category-drawer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-radius: 20px 20px 0 0;
+  max-height: 70vh;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 2000;
+  overflow: hidden;
+}
+
+.category-drawer.active {
+  transform: translateY(0);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.drawer-close {
+  background: var(--background);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+.drawer-content {
+  padding: 20px;
+  max-height: calc(70vh - 70px);
+  overflow-y: auto;
+}
+
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--overlay);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1999;
+}
+
+.drawer-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+ 
+
+.static-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin-bottom: 30px;
+  color: var(--text-primary);
+}
+
+.about-content,
+.privacy-content,
+.contact-content {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+.about-section,
+.privacy-section {
+  margin-bottom: 40px;
+}
+
+.about-section h2,
+.privacy-section h2 {
+  font-size: 1.75rem;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 30px;
+}
+
+@media (max-width: 640px) {
+  .values-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.value-card {
+  background: var(--card);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.value-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.value-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.value-card p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.privacy-intro {
+  color: var(--text-tertiary);
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+.privacy-section ul {
+  margin: 15px 0;
+  padding-right: 25px;
+}
+
+.privacy-section li {
+  margin-bottom: 10px;
+  line-height: 1.8;
+}
+
+ 
+.contact-intro {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 12px 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.submit-btn {
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--shadow-hover);
+}
+
+.contact-method {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding: 20px;
+  background: var(--card);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.contact-icon {
+  width: 50px;
+  height: 50px;
+  background: var(--surface);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.contact-icon.whatsapp {
+  color: #25D366;
+}
+
+.contact-details h3 {
+  font-size: 1.125rem;
+  margin-bottom: 5px;
+  color: var(--text-primary);
+}
+
+.contact-details a,
+.contact-details p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.social-links {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid var(--border);
+}
+
+.social-links h3 {
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.social-icon {
+  width: 45px;
+  height: 45px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.social-icon.facebook:hover {
+  background: #1877F2;
+  color: white;
+  border-color: #1877F2;
+}
+
+.social-icon.twitter:hover {
+  background: #000000;
+  color: white;
+  border-color: #000000;
+}
+
+.social-icon.instagram:hover {
+  background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF);
+  color: white;
+  border-color: transparent;
+}
+
+.social-icon.youtube:hover {
+  background: #FF0000;
+  color: white;
+  border-color: #FF0000;
+}
+
+ 
+
+.sitemap-container {
+  padding: 40px 20px;
+}
+
+.sitemap-section {
+  margin-bottom: 40px;
+  background: var(--card);
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.sitemap-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--accent);
+}
+
+.sitemap-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.sitemap-list li {
+  padding: 0;
+}
+
+.sitemap-list a {
+  display: block;
+  padding: 12px 15px;
+  background: var(--surface);
+  border-radius: 8px;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  border: 1px solid var(--border);
+}
+
+.sitemap-list a:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  transform: translateX(-5px);
+}
+
+ 
+
+.back-to-top {
+  position: fixed;
+  bottom: 90px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  background: var(--accent);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 999;
+  box-shadow: 0 5px 15px var(--shadow);
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  background: var(--accent-hover);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px var(--shadow-hover);
+}
+
+@media (max-width: 768px) {
+  .back-to-top {
+    bottom: 90px;
+    left: 20px;
+  }
+}
+
+ 
+
+.toast {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: var(--card);
+  color: var(--text-primary);
+  padding: 15px 25px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: 0 5px 20px var(--shadow-hover);
+  transform: translateX(400px);
+  transition: transform 0.3s ease;
+  z-index: 9999;
+  max-width: 350px;
+}
+
+.toast.show {
+  transform: translateX(0);
+}
+
+.toast.success {
+  border-right: 4px solid #22c55e;
+}
+
+.toast.error {
+  border-right: 4px solid #ef4444;
+}
+
+.toast.info {
+  border-right: 4px solid var(--accent);
+}
+
+ 
+
+@media (max-width: 640px) {
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  
+  .page-title {
+    font-size: 1.75rem;
+  }
+  
+  .static-page {
+    padding: 20px 15px;
+  }
+}
+
+ 
+
+@media print {
+  .main-header,
+  .breaking-ticker,
+  .sidebar,
+  .main-footer,
+  .mobile-nav,
+  .back-to-top,
+  .toast {
+    display: none !important;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .article-reader {
+    box-shadow: none;
+    border: none;
+  }
+}
+
+ 
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+ 
+
+@supports (-webkit-overflow-scrolling: touch) {
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+</style>  </head>
+  <body>
+    
+    <div id="app">
+      <h1>مرحباً بك في تطبيقك</h1>
+      <p>تم إصلاح الكود بنجاح!</p>
+    </div>
+
+    <script>
+
+
+
+(function() {
+  'use strict';
+
+  
+  
+  
+
+  const STATE = {
+    articles: [],
+    trending: [],
+    breaking: [],
+    categories: [],
+    currentView: 'home',
+    currentArticle: null,
+    currentCategory: null,
+    displayedArticles: 12,
+    theme: localStorage.getItem('tareq-theme') || 'dark',
+    searchQuery: '',
+    loading: false
+  };
+
+  
+  
+  
+
+  window.APP = {
+    
+    
+
+    init: function() {
+      console.log('🚀 Tareq News Aggregator - Initializing...');
+      
+      
+      this.loadInitialData();
+      
+      
+      this.applyTheme(STATE.theme);
+      
+      
+      this.setupEventListeners();
+      
+      
+      this.router.init();
+      
+      
+      this.startAutoRefresh();
+      
+      
+      setTimeout(() => {
+        document.getElementById('loading-screen').classList.add('hidden');
+      }, 800);
+      
+      console.log('✅ Application initialized successfully');
+    },
+
+    
+
+    loadInitialData: function() {
+      try {
+        const data = window.INITIAL_DATA;
+        
+        if (data && data.articles) {
+          STATE.articles = data.articles;
+          STATE.trending = data.trending || [];
+          STATE.breaking = data.breaking || [];
+          STATE.categories = data.categories || [];
+          
+          console.log(`📊 Loaded ${STATE.articles.length} articles`);
+          
+          
+          this.renderHomePage();
+          this.renderSidebar();
+          this.renderBreakingTicker();
+          
+        } else {
+          console.error('❌ No initial data available');
+          this.showToast('فشل تحميل البيانات', 'error');
+        }
+      } catch (e) {
+        console.error('❌ Error loading initial data:', e);
+        this.showToast('حدث خطأ أثناء التحميل', 'error');
+      }
+    },
+
+    
+
+    setupEventListeners: function() {
+      
+      const searchInput = document.getElementById('search-input');
+      if (searchInput) {
+        searchInput.addEventListener('input', this.debounce((e) => {
+          this.handleSearch(e.target.value);
+        }, 300));
+      }
+
+      
+      window.addEventListener('scroll', () => {
+        const backToTop = document.getElementById('back-to-top');
+        if (window.scrollY > 500) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible');
+        }
+      });
+
+      
+      document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+      
+      this.updateVisitorCount();
+      setInterval(() => this.updateVisitorCount(), 30000);
+    },
+
+    
+
+    debounce: function(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    },
+
+    
+    
+    
+
+    
+
+    renderHomePage: function() {
+      const grid = document.getElementById('bento-grid');
+      if (!grid) return;
+
+      const articlesToShow = STATE.articles.slice(0, STATE.displayedArticles);
+      
+      if (articlesToShow.length === 0) {
+        grid.innerHTML = '<p style="text-align:center;color:var(--text-secondary);grid-column:1/-1;padding:60px 20px;">لا توجد أخبار متاحة حالياً</p>';
+        return;
+      }
+
+      grid.innerHTML = articlesToShow.map(article => this.createArticleCard(article)).join('');
+
+      
+      const loadMoreContainer = document.getElementById('load-more-container');
+      if (loadMoreContainer) {
+        loadMoreContainer.style.display = STATE.displayedArticles < STATE.articles.length ? 'block' : 'none';
+      }
+    },
+
+    
+
+    createArticleCard: function(article) {
+      const timeAgo = this.getTimeAgo(article.pubDate);
+      const tags = article.tags ? article.tags.slice(0, 2) : [];
+      
+      return `
+        <div class="article-card" onclick="APP.openArticle('${article.id}')">
+          <div class="card-image">
+            <img src="${article.image}" alt="${this.escapeHtml(article.title)}" loading="lazy" onerror="this.src='https://via.placeholder.com/800x400/ff0000/ffffff?text=طارق+الإخباري'">
+            <div class="card-category" style="background-color: ${article.sourceColor}">${article.category}</div>
+            ${tags.length > 0 ? `
+              <div class="card-tags">
+                ${tags.map(tag => `<span class="card-tag">#${tag}</span>`).join('')}
+              </div>
+            ` : ''}
           </div>
-          
-            <div class="card">
-              <h2>ترامب: لا يمكن السماح بتكرار الأخطاء وإعادة نوري المالكي رئيساً لوزراء العراق</h2>
-              <p>قال الرئيس الأمريكي دونالد ترامب الثلاثاء إن الولايات &zwnj;المتحدة لن تساعد ⁠العراق بعد الآن إذا اختار نوري &zwnj;المال...</p>
-              <a href="https://alwatannews.net/world/article/4071532/%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%84%D8%A7-%D9%8A%D9%85%D9%83%D9%86-%D8%A7%D9%84%D8%B3%D9%85%D8%A7%D8%AD-%D8%A8%D8%AA%D9%83%D8%B1%D8%A7%D8%B1-%D8%A7%D9%84%D8%A3%D8%AE%D8%B7%D8%A7%D8%A1-%D9%88%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D9%86%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D9%85%D8%A7%D9%84%D9%83%D9%8A-%D8%B1%D8%A6%D9%8A%D8%B3%D8%A7-%D9%84%D9%88%D8%B2%D8%B1%D8%A7%D8%A1-%D8%A7%D9%84%D8%B9%D8%B1%D8%A7%D9%82" target="_blank">إقرأ المزيد ←</a>
+          <div class="card-content">
+            <h3 class="card-title">${this.escapeHtml(article.title)}</h3>
+            <p class="card-description">${this.escapeHtml(this.stripHtml(article.description))}</p>
+            <div class="card-meta">
+              <div class="card-source">
+                <img src="${article.sourceLogo}" alt="${article.sourceName}" class="source-logo">
+                <span>${article.sourceName}</span>
+              </div>
+              <div class="card-time">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                ${timeAgo}
+              </div>
             </div>
-          
-            <div class="card">
-              <h2>جمعية السنابل تحتفل بعيد ميلاد الملك</h2>
-              <p>عمون - قامت جمعية السنابل بفعالية الاحتفال بعيد ميلاد جلالة الملك عبدالله الثاني بزراعة عدد مائه وخمسون شجره حرجيه في غا...</p>
-              <a href="https://www.ammonnews.net/article/976787" target="_blank">إقرأ المزيد ←</a>
-            </div>
-          
-            <div class="card">
-              <h2>العيسوي يرعى الاحتفال الوطني بمناسبة عيد ميلاد الملك</h2>
-              <p>عمون - يرعى يوسف حسن العيسوي رئيس الديوان الملكي الهاشمي العامر مساء اليوم الجمعة، الاحتفال الوطني الكبير والذي سيقام بم...</p>
-              <a href="https://www.ammonnews.net/article/976754" target="_blank">إقرأ المزيد ←</a>
-            </div>
-          
-            <div class="card">
-              <h2>"فريق كلنا خلف قيادتنا الهاشمية" يهنئ الملك بعيد ميلاده</h2>
-              <p>عمون - يتقدم رئيس الهيئة الإدارية لفريق كلنا خلف قيادتنا الهاشمية السيد هاشم محمد آل خطاب باسمه وباسم أعضاء الهيئة الإدا...</p>
-              <a href="https://www.ammonnews.net/article/976747" target="_blank">إقرأ المزيد ←</a>
-            </div>
-          
-            <div class="card">
-              <h2>رئيسة ملتقى أصايل الأردن تهنئ الملك بعيد ميلاده</h2>
-              <p>عمون - تتشرف الشيخة ريما الرتيمة العبادي رئيس ملتقى أصايل الأردن لابسات المدارق، بأن ترفع إلى مقام حضرة صاحب الجلالة اله...</p>
-              <a href="https://www.ammonnews.net/article/976738" target="_blank">إقرأ المزيد ←</a>
-            </div>
-          
-            <div class="card">
-              <h2>مبادرة الوفاء لإربد ..  العتوم ترك أثرًا راسخًا في ذاكرة المحافظة</h2>
-              <p>عمون - من د. حمزة الشيخ حسينزار وفد من مبادرة «الوفاء لإربد» دار محافظة إربد، حيث التقى بالمحافظ السيد رضوان العتوم، وذل...</p>
-              <a href="https://www.ammonnews.net/article/976734" target="_blank">إقرأ المزيد ←</a>
-            </div>
-          
-            <div class="card">
-              <h2>البرنامج الوطني لتمكين الشباب يهنئ الملك بعيد ميلاده الـ64</h2>
-              <p>عمون - يرفع البرنامج الوطني لتمكين الشباب – رؤية 2025–2030 أسمى آيات التهنئة والتبريك إلى حضرة صاحب الجلالة الهاشمية الم...</p>
-              <a href="https://www.ammonnews.net/article/976729" target="_blank">إقرأ المزيد ←</a>
-            </div>
-          
-            <div class="card">
-              <h2>أكاديميان يرشحان الملك عبدالله الثاني لجائزة نوبل للسلام</h2>
-              <p>عمون - أعلن الأكاديميان الدكتور أشرف وليد منصور، والأستاذ الدكتور محمد عبد المحسن العفيف، عن تقدمهما بطلب إلى لجنة جائزة...</p>
-              <a href="https://www.ammonnews.net/article/976716" target="_blank">إقرأ المزيد ←</a>
-            </div>
-          
-            <div class="card">
-              <h2>الحدادين يقترح دق أجراس الكنائس فرحًا بعيد ميلاد الملك</h2>
-              <p>عمون - اقترح المحامي أكثم خلف الحدادين ، الناشط السياسي والاجتماعي ، عضو المجلس الاستشاري لمحافظة مادبا ، ونائب رئيس بلد...</p>
-              <a href="https://www.ammonnews.net/article/976687" target="_blank">إقرأ المزيد ←</a>
-            </div>
-          
-            <div class="card">
-              <h2>احتفالًا بعيد ميلاد الملك ..  دار الحسام تطلق مبادرة “تعاونوا”</h2>
-              <p>عمون - احتفالًا بعيد ميلاد جلالة الملك عبدالله الثاني ابن الحسين، أعلنت دار الحسام للعمل الشبابي عن إطلاق مبادرة تعاونوا...</p>
-              <a href="https://www.ammonnews.net/article/976674" target="_blank">إقرأ المزيد ←</a>
-            </div>
-          
-            <div class="card">
-              <h2>مبادرات شبابية تعزّز الوعي والمسؤولية المجتمعية في مراكز شباب إربد</h2>
-              <p>عمون - نفّذت مراكز الشباب في لواء الكورة والمزار الشمالي، الخميس، مجموعة من الأنشطة التوعوية والتطوعية الهادفة إلى تعزيز...</p>
-              <a href="https://www.ammonnews.net/article/976673" target="_blank">إقرأ المزيد ←</a>
-            </div>
-          
-            <div class="card">
-              <h2>جمعية المحبة والرحمة تحتفل بعيد ميلاد جلالة الملك بزيارة إنسانية لمستشفى السلط</h2>
-              <p>عمون - احتفلت جمعية المحبة والرحمة، ممثلة برئيسها ميشيل فشحو، وبالتعاون مع الشرطة المجتمعية، بعيد ميلاد جلالة الملك عبدا...</p>
-              <a href="https://www.ammonnews.net/article/976650" target="_blank">إقرأ المزيد ←</a>
-            </div>
-          
+          </div>
         </div>
-      </body>
-      </html>
+      `;
+    },
+
+    /**
+     * Render sidebar widgets
+     */
+    renderSidebar: function() {
+      this.renderTrendingWidget();
+      this.renderLatestWidget();
+      this.renderCategoriesWidget();
+    },
+
+    /**
+     * Render trending widget
+     */
+    renderTrendingWidget: function() {
+      const container = document.getElementById('trending-list');
+      if (!container) return;
+
+      const trending = STATE.trending.slice(0, 5);
+      
+      container.innerHTML = trending.map(article => `
+        <div class="trending-item" onclick="APP.openArticle('${article.id}')">
+          <img src="${article.image}" alt="${this.escapeHtml(article.title)}" class="trending-thumbnail" loading="lazy">
+          <div class="trending-content">
+            <h4 class="trending-title">${this.escapeHtml(article.title)}</h4>
+            <div class="trending-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              رائج
+            </div>
+          </div>
+        </div>
+      `).join('');
+    },
+
+    
+
+    renderLatestWidget: function() {
+      const container = document.getElementById('latest-timeline');
+      if (!container) return;
+
+      const latest = STATE.articles.slice(0, 10);
+      
+      container.innerHTML = latest.map(article => `
+        <div class="timeline-item" onclick="APP.openArticle('${article.id}')">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4 class="timeline-title">${this.escapeHtml(article.title)}</h4>
+            <div class="timeline-time">${this.getTimeAgo(article.pubDate)}</div>
+          </div>
+        </div>
+      `).join('');
+    },
+
+    /**
+     * Render categories widget
+     */
+    renderCategoriesWidget: function() {
+      const container = document.getElementById('categories-list');
+      if (!container) return;
+
+      container.innerHTML = STATE.categories.map(cat => `
+        <div class="category-item" onclick="APP.filterByCategory('${cat.name}')">
+          <span class="category-name">${cat.name}</span>
+          <span class="category-count">${cat.count}</span>
+        </div>
+      `).join('');
+
+      
+      const drawerContainer = document.getElementById('drawer-categories');
+      if (drawerContainer) {
+        drawerContainer.innerHTML = STATE.categories.map(cat => `
+          <div class="category-item" onclick="APP.filterByCategory('${cat.name}'); APP.toggleCategoryDrawer();">
+            <span class="category-name">${cat.name}</span>
+            <span class="category-count">${cat.count}</span>
+          </div>
+        `).join('');
+      }
+    },
+
+    /**
+     * Render breaking news ticker
+     */
+    renderBreakingTicker: function() {
+      const track = document.getElementById('ticker-track');
+      if (!track) return;
+
+      const breaking = STATE.breaking.slice(0, 10);
+      
+      if (breaking.length === 0) {
+        document.getElementById('breaking-ticker').style.display = 'none';
+        return;
+      }
+
+      // Duplicate for infinite scroll effect
+      const items = [...breaking, ...breaking];
+      
+      track.innerHTML = items.map((article, index) => `
+        <span class="ticker-item" onclick="APP.openArticle('${article.id}')">
+          ${this.escapeHtml(article.title)}
+        </span>
+        ${index < items.length - 1 ? '<span class="ticker-separator">•</span>' : ''}
+      `).join('');
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // ARTICLE READER
+    // ═══════════════════════════════════════════════════════════
+
+    /**
+     * Open article in reader view
+     */
+    openArticle: function(articleId) {
+      const article = STATE.articles.find(a => a.id === articleId);
+      
+      if (!article) {
+        this.showToast('لم يتم العثور على المقال', 'error');
+        return;
+      }
+
+      STATE.currentArticle = article;
+      
+      // Update URL
+      this.router.navigate('article', articleId);
+      
+      // Render article
+      this.renderArticleReader(article);
+      
+      // Update meta tags for sharing
+      this.updateMetaTags(article);
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+
+    /**
+     * Render article reader
+     */
+    renderArticleReader: function(article) {
+      const reader = document.getElementById('article-reader');
+      if (!reader) return;
+
+      const publishDate = new Date(article.pubDate).toLocaleDateString('ar-JO', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      reader.innerHTML = `
+        <div class="reader-header">
+          <button class="back-btn" onclick="APP.router.back()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            عودة
+          </button>
+          <div class="reader-actions">
+            <button class="share-btn" onclick="APP.shareArticle('${article.id}')" title="مشاركة">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="reader-hero">
+          <img src="${article.image}" alt="${this.escapeHtml(article.title)}" class="reader-hero-img">
+          <div class="reader-category-badge" style="background-color: ${article.sourceColor}">
+            ${article.category}
+          </div>
+        </div>
+
+        <div class="reader-body">
+          <h1 class="reader-title">${this.escapeHtml(article.title)}</h1>
+
+          <div class="reader-meta">
+            <div class="reader-source">
+              <img src="${article.sourceLogo}" alt="${article.sourceName}" class="reader-source-logo">
+              <div>
+                <div class="reader-source-name">${article.sourceName}</div>
+                <div class="reader-time">${publishDate}</div>
+              </div>
+            </div>
+          </div>
+
+          ${article.tags && article.tags.length > 0 ? `
+            <div class="reader-tags">
+              ${article.tags.map(tag => `
+                <span class="reader-tag" onclick="APP.filterByTag('${tag}')">#${tag}</span>
+              `).join('')}
+            </div>
+          ` : ''}
+
+          <div class="reader-content">
+            ${article.content || article.description}
+          </div>
+
+          ${article.editorialSignature || ''}
+        </div>
+      `;
+    },
+
+    /**
+     * Share article
+     */
+    shareArticle: function(articleId) {
+      const article = STATE.articles.find(a => a.id === articleId);
+      if (!article) return;
+
+      const shareData = {
+        title: article.title,
+        text: article.description,
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        navigator.share(shareData)
+          .then(() => this.showToast('تمت المشاركة بنجاح', 'success'))
+          .catch(err => console.log('Share error:', err));
+      } else {
+        // Fallback: copy link
+        navigator.clipboard.writeText(window.location.href)
+          .then(() => this.showToast('تم نسخ الرابط', 'success'))
+          .catch(() => this.showToast('فشل نسخ الرابط', 'error'));
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // FILTERING & SEARCH
+    // ═══════════════════════════════════════════════════════════
+
+    /**
+     * Filter by category
+     */
+    filterByCategory: function(category) {
+      STATE.currentCategory = category;
+      STATE.displayedArticles = 12;
+      
+      const filtered = STATE.articles.filter(a => a.category === category);
+      
+      // Render category view
+      this.router.navigate('category', category);
+      this.renderCategoryView(category, filtered);
+    },
+
+    /**
+     * Render category view
+     */
+    renderCategoryView: function(category, articles) {
+      const titleEl = document.getElementById('category-title');
+      const descEl = document.getElementById('category-description');
+      const grid = document.getElementById('category-grid');
+
+      if (titleEl) titleEl.textContent = category;
+      if (descEl) descEl.textContent = `${articles.length} خبر`;
+      
+      if (grid) {
+        grid.innerHTML = articles.map(article => this.createArticleCard(article)).join('');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+
+    /**
+     * Filter by tag
+     */
+    filterByTag: function(tag) {
+      const filtered = STATE.articles.filter(a => a.tags && a.tags.includes(tag));
+      this.renderCategoryView(`#${tag}`, filtered);
+      this.router.navigate('category', tag);
+    },
+
+    /**
+     * Handle search
+     */
+    handleSearch: function(query) {
+      STATE.searchQuery = query.toLowerCase().trim();
+      
+      if (!STATE.searchQuery) {
+        this.renderHomePage();
+        return;
+      }
+
+      const results = STATE.articles.filter(article => {
+        const searchText = (article.title + ' ' + article.description + ' ' + article.content).toLowerCase();
+        return searchText.includes(STATE.searchQuery);
+      });
+
+      const grid = document.getElementById('bento-grid');
+      if (grid) {
+        if (results.length === 0) {
+          grid.innerHTML = `
+            <div style="grid-column:1/-1;text-align:center;padding:60px 20px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-tertiary);margin-bottom:20px;">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <p style="color:var(--text-secondary);font-size:1.125rem;">لا توجد نتائج للبحث عن "${this.escapeHtml(STATE.searchQuery)}"</p>
+            </div>
+          `;
+        } else {
+          grid.innerHTML = results.map(article => this.createArticleCard(article)).join('');
+        }
+      }
+    },
+
+    /**
+     * Clear search
+     */
+    clearSearch: function() {
+      const searchInput = document.getElementById('search-input');
+      if (searchInput) {
+        searchInput.value = '';
+        STATE.searchQuery = '';
+        this.renderHomePage();
+      }
+    },
+
+    /**
+     * Toggle search bar
+     */
+    toggleSearch: function() {
+      const searchBar = document.getElementById('search-bar');
+      const searchInput = document.getElementById('search-input');
+      
+      if (searchBar) {
+        searchBar.classList.toggle('active');
+        if (searchBar.classList.contains('active') && searchInput) {
+          setTimeout(() => searchInput.focus(), 300);
+        }
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // PAGINATION
+    // ═══════════════════════════════════════════════════════════
+
+    /**
+     * Load more articles
+     */
+    loadMoreArticles: function() {
+      STATE.displayedArticles += 12;
+      this.renderHomePage();
+      this.showToast('تم تحميل المزيد', 'info');
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // THEME MANAGEMENT
+    // ═══════════════════════════════════════════════════════════
+
+    /**
+     * Toggle theme
+     */
+    toggleTheme: function() {
+      STATE.theme = STATE.theme === 'dark' ? 'light' : 'dark';
+      this.applyTheme(STATE.theme);
+      localStorage.setItem('tareq-theme', STATE.theme);
+      
+      this.showToast(
+        STATE.theme === 'dark' ? 'تم التبديل للوضع الليلي' : 'تم التبديل للوضع النهاري',
+        'info'
+      );
+    },
+
+    /**
+     * Apply theme
+     */
+    applyTheme: function(theme) {
+      document.body.className = `theme-${theme}`;
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // MOBILE INTERACTIONS
+    // ═══════════════════════════════════════════════════════════
+
+    /**
+     * Toggle mobile menu
+     */
+    toggleMobileMenu: function() {
+      // Placeholder for mobile menu
+      this.showToast('القائمة قريباً', 'info');
+    },
+
+    /**
+     * Toggle category drawer
+     */
+    toggleCategoryDrawer: function() {
+      const drawer = document.getElementById('category-drawer');
+      const overlay = document.getElementById('drawer-overlay');
+      
+      if (drawer && overlay) {
+        drawer.classList.toggle('active');
+        overlay.classList.toggle('active');
+        
+        // Prevent body scroll when drawer is open
+        if (drawer.classList.contains('active')) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      }
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // UTILITIES
+    // ═══════════════════════════════════════════════════════════
+
+    /**
+     * Get time ago string
+     */
+    getTimeAgo: function(timestamp) {
+      const now = Date.now();
+      const diff = now - timestamp;
+      
+      const minutes = Math.floor(diff / 60000);
+      const hours = Math.floor(diff / 3600000);
+      const days = Math.floor(diff / 86400000);
+      
+      if (minutes < 1) return 'الآن';
+      if (minutes < 60) return `منذ ${minutes} ${minutes === 1 ? 'دقيقة' : 'دقائق'}`;
+      if (hours < 24) return `منذ ${hours} ${hours === 1 ? 'ساعة' : 'ساعات'}`;
+      if (days < 7) return `منذ ${days} ${days === 1 ? 'يوم' : 'أيام'}`;
+      
+      return new Date(timestamp).toLocaleDateString('ar-JO', {
+        month: 'short',
+        day: 'numeric'
+      });
+    },
+
+    /**
+     * Strip HTML tags
+     */
+    stripHtml: function(html) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      return tmp.textContent || tmp.innerText || '';
+    },
+
+    /**
+     * Escape HTML
+     */
+    escapeHtml: function(text) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, m => map[m]);
+    },
+
+    
+
+    updateMetaTags: function(article) {
+      
+      document.title = `${article.title} - طارق الإخباري`;
+      
+      
+      document.getElementById('og-type').content = 'article';
+      document.getElementById('og-title').content = article.title;
+      document.getElementById('og-description').content = this.stripHtml(article.description);
+      document.getElementById('og-image').content = article.image;
+      document.getElementById('og-url').content = window.location.href;
+      
+      
+      document.getElementById('twitter-title').content = article.title;
+      document.getElementById('twitter-description').content = this.stripHtml(article.description);
+      document.getElementById('twitter-image').content = article.image;
+      document.getElementById('twitter-url').content = window.location.href;
+      
+      
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": article.title,
+        "image": article.image,
+        "datePublished": new Date(article.pubDate).toISOString(),
+        "author": {
+          "@type": "Organization",
+          "name": article.sourceName
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "طارق الإخباري",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://via.placeholder.com/200x60/ff0000/ffffff?text=طارق+الإخباري"
+          }
+        },
+        "description": this.stripHtml(article.description)
+      };
+      
+      document.getElementById('schema-data').textContent = JSON.stringify(schema);
+    },
+
+    
+
+    showToast: function(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+      
+      toast.textContent = message;
+      toast.className = `toast ${type}`;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    },
+
+    
+
+    scrollToTop: function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+
+    
+
+    updateVisitorCount: function() {
+      const visitorEl = document.getElementById('visitor-count');
+      if (visitorEl) {
+        const count = Math.floor(Math.random() * 300) + 150;
+        visitorEl.textContent = count;
+      }
+    },
+
+    
+
+    startAutoRefresh: function() {
+      
+      setInterval(() => {
+        console.log('🔄 Auto-refreshing data...');
+        
+      }, 900000); 
+    },
+
+    
+
+    submitContactForm: function(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('contact-name').value;
+      const email = document.getElementById('contact-email').value;
+      const message = document.getElementById('contact-message').value;
+      
+      
+      console.log('Contact form:', { name, email, message });
+      
+      this.showToast('شكراً لتواصلك معنا! سنرد عليك قريباً', 'success');
+      event.target.reset();
+    },
+
+    
+
+    subscribeNewsletter: function(event) {
+      event.preventDefault();
+      
+      const email = event.target.querySelector('input[type="email"]').value;
+      
+      
+      console.log('Newsletter subscription:', email);
+      
+      this.showToast('تم الاشتراك بنجاح!', 'success');
+      event.target.reset();
+    },
+
+    
+    
+    
+
+    router: {
+      routes: {
+        'home': { view: 'home-view', title: 'الرئيسية' },
+        'article': { view: 'article-view', title: 'قراءة المقال' },
+        'category': { view: 'category-view', title: 'التصنيف' },
+        'sitemap': { view: 'sitemap-view', title: 'خريطة الموقع' },
+        'about': { view: 'about-view', title: 'من نحن' },
+        'privacy': { view: 'privacy-view', title: 'سياسة الخصوصية' },
+        'contact': { view: 'contact-view', title: 'اتصل بنا' }
+      },
+
+      init: function() {
+        
+        window.addEventListener('popstate', (e) => {
+          if (e.state) {
+            this.showView(e.state.view, e.state.param);
+          }
+        });
+
+        
+        const hash = window.location.hash.slice(1);
+        if (hash) {
+          const [view, param] = hash.split('/');
+          this.navigate(view, param, true);
+        } else {
+          this.navigate('home', null, true);
+        }
+      },
+
+      navigate: function(view, param = null, replace = false) {
+        const route = this.routes[view];
+        if (!route) {
+          console.error('Route not found:', view);
+          return;
+        }
+
+        const url = param ? `#${view}/${param}` : `#${view}`;
+        
+        if (replace) {
+          history.replaceState({ view, param }, '', url);
+        } else {
+          history.pushState({ view, param }, '', url);
+        }
+
+        this.showView(view, param);
+        
+        // Update active nav link
+        this.updateActiveNav(view);
+      },
+
+      showView: function(viewName, param) {
+        
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        
+        
+        const route = this.routes[viewName];
+        if (route) {
+          const viewEl = document.getElementById(route.view);
+          if (viewEl) {
+            viewEl.classList.add('active');
+            
+            
+            document.title = `${route.title} - طارق الإخباري`;
+            
+            
+            if (viewName === 'sitemap') {
+              APP.renderSitemap();
+            }
+          }
+        }
+      },
+
+      back: function() {
+        history.back();
+      },
+
+      updateActiveNav: function(view) {
+        document.querySelectorAll('.nav-link').forEach(link => {
+          link.classList.remove('active');
+        });
+        
+        document.querySelectorAll('.mobile-nav-item').forEach(btn => {
+          btn.classList.remove('active');
+        });
+
+        if (view === 'home') {
+          const homeLink = document.querySelector('.nav-link[data-category="all"]');
+          if (homeLink) homeLink.classList.add('active');
+          
+          const homeBtn = document.querySelector('.mobile-nav-item[data-view="home"]');
+          if (homeBtn) homeBtn.classList.add('active');
+        }
+      }
+    },
+
+    
+
+    renderSitemap: function() {
+      const container = document.getElementById('sitemap-content');
+      if (!container) return;
+
+      
+      const byDate = {};
+      STATE.articles.slice(0, 100).forEach(article => {
+        const date = new Date(article.pubDate).toLocaleDateString('ar-JO', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        
+        if (!byDate[date]) {
+          byDate[date] = [];
+        }
+        byDate[date].push(article);
+      });
+
+      container.innerHTML = `
+        <!-- Categories Section -->
+        <div class="sitemap-section">
+          <h2>التصنيفات</h2>
+          <ul class="sitemap-list">
+            ${STATE.categories.map(cat => `
+              <li><a href="#" onclick="APP.filterByCategory('${cat.name}'); return false;">${cat.name} (${cat.count})</a></li>
+            `).join('')}
+          </ul>
+        </div>
+
+        <!-- Static Pages Section -->
+        <div class="sitemap-section">
+          <h2>الصفحات</h2>
+          <ul class="sitemap-list">
+            <li><a href="#" onclick="APP.router.navigate('home'); return false;">الرئيسية</a></li>
+            <li><a href="#" onclick="APP.router.navigate('about'); return false;">من نحن</a></li>
+            <li><a href="#" onclick="APP.router.navigate('privacy'); return false;">سياسة الخصوصية</a></li>
+            <li><a href="#" onclick="APP.router.navigate('contact'); return false;">اتصل بنا</a></li>
+          </ul>
+        </div>
+
+        <!-- Recent Articles Section -->
+        <div class="sitemap-section">
+          <h2>الأخبار الأخيرة (آخر 30 يوماً)</h2>
+          ${Object.entries(byDate).map(([date, articles]) => `
+            <div style="margin-bottom:30px;">
+              <h3 style="color:var(--accent);font-size:1.125rem;margin-bottom:15px;">${date}</h3>
+              <ul class="sitemap-list">
+                ${articles.map(article => `
+                  <li><a href="#" onclick="APP.openArticle('${article.id}'); return false;">${this.escapeHtml(article.title)}</a></li>
+                `).join('')}
+              </ul>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+  };
+
+  // ═══════════════════════════════════════════════════════════
+  
+  
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => APP.init());
+  } else {
+    APP.init();
+  }
+
+})();
+</script>  </body>
+</html>
