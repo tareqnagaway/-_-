@@ -4,110 +4,310 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طارق نيوز</title>
+    <title>الطارق نيوز | عينك على الحقيقة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-      body { font-family: sans-serif; background: #f4f4f4; padding: 20px; direction: rtl; }
-      header { background: #1a237e; color: white; padding: 15px; text-align: center; border-radius: 8px; }
-      .news-item { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-      .label { color: #ff5722; font-weight: bold; font-size: 0.8em; }
-      h2 { margin: 5px 0; font-size: 1.2em; }
-      a { color: #1a237e; text-decoration: none; font-weight: bold; }
+      :root { --main-color: #002f56; --accent-color: #c49a6c; --breaking-red: #cc0000; }
+      body { font-family: 'Cairo', sans-serif; background: #f8f9fa; margin: 0; color: #333; }
+      
+      /* شريط عاجل */
+      .breaking-bar { background: var(--breaking-red); color: white; display: flex; align-items: center; height: 40px; overflow: hidden; position: sticky; top: 0; z-index: 2000; }
+      .breaking-title { background: #8b0000; padding: 0 20px; font-weight: bold; height: 100%; display: flex; align-items: center; white-space: nowrap; z-index: 10; }
+      .breaking-content { white-space: nowrap; animation: marquee 30s linear infinite; padding-right: 50px; }
+      @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+      /* الهيدر */
+      header { background: var(--main-color); color: white; padding: 20px 0; text-align: center; border-bottom: 4px solid var(--accent-color); }
+      .logo { font-size: 40px; font-weight: 900; letter-spacing: -1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+      
+      /* القائمة */
+      nav { background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: center; padding: 10px; sticky; top: 40px; z-index: 1000; }
+      nav a { margin: 0 15px; text-decoration: none; color: var(--main-color); font-weight: 700; transition: 0.3s; }
+      nav a:hover { color: var(--accent-color); }
+
+      /* الحاويات */
+      .container { max-width: 1200px; margin: 30px auto; padding: 0 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+      .card { background: white; border-radius: 0; border: 1px solid #eee; overflow: hidden; transition: 0.3s; }
+      .card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+      .card-img { width: 100%; height: 200px; background: #ddd; background: linear-gradient(45deg, #eee, #ccc); }
+      .card-body { padding: 20px; }
+      .card-cat { color: var(--breaking-red); font-weight: bold; font-size: 14px; text-transform: uppercase; }
+      .card-title { font-size: 1.4rem; margin: 10px 0; line-height: 1.4; color: var(--main-color); }
+      .card-desc { color: #666; font-size: 15px; line-height: 1.7; }
+      
+      /* الصفحات الثابتة */
+      .static-page { display:none; max-width: 800px; margin: 50px auto; background: white; padding: 40px; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
+      .active { display: block !important; }
+
+      footer { background: var(--main-color); color: white; padding: 50px 0; text-align: center; margin-top: 50px; border-top: 5px solid var(--accent-color); }
     </style>
   </head>
   <body>
-    <header><h1>الطارق نيوز</h1></header>
-    
-      <div class="news-item">
-        <span class="label">العالم-العربي</span>
-        <h2>مصر: رحلة ساحرة عبر الزمن على نهر النيل.. بين أسرار الفراعنة ومراكب "الدهبية"</h2>
-        <p>
-في مصر لا يعتبر نهر النيل قلب الحياة النابض فقط، بل جوهرة يقبل عليها السياح من كل العالم لاكتشاف الإرث الحضاري الفرعوني...</p>
-        <a href="https://www.france24.com/ar/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC/%D9%81%D9%8A-%D8%B9%D9%85%D9%82-%D8%A7%D9%84%D8%AD%D8%AF%D8%AB/20260130-%D9%85%D8%B5%D8%B1-%D8%B1%D8%AD%D9%84%D8%A9-%D8%B3%D8%A7%D8%AD%D8%B1%D8%A9-%D8%B9%D8%A8%D8%B1-%D8%A7%D9%84%D8%B2%D9%85%D9%86-%D8%B9%D9%84%D9%89-%D9%86%D9%87%D8%B1-%D8%A7%D9%84%D9%86%D9%8A%D9%84-%D8%A8%D9%8A%D9%86-%D8%A3%D8%B3%D8%B1%D8%A7%D8%B1-%D8%A7%D9%84%D9%81%D8%B1%D8%A7%D8%B9%D9%86%D8%A9-%D9%88%D9%85%D8%B1%D8%A7%D9%83%D8%A8-%D8%A7%D9%84%D8%AF%D9%87%D8%A8%D9%8A%D8%A9" target="_blank">إقرأ المزيد ←</a>
-      </div>
-    
-      <div class="news-item">
-        <span class="label">العالم-العربي</span>
-        <h2>إيران.. ما بين الدبلوماسية والتدخل العسكري!</h2>
-        <p>
-في تصعيد جديد، لم يستبعد الرئيس الأميركي دونالد ترامب شنّ هجوم عسكري على إيران على خلفية قمع الاحتجاجات، بالتوازي مع حش...</p>
-        <a href="https://www.france24.com/ar/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC/%D8%B6%D9%8A%D9%81-%D8%A7%D9%84%D9%8A%D9%88%D9%85/20260130-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%85%D8%A7-%D8%A8%D9%8A%D9%86-%D8%A7%D9%84%D8%AF%D8%A8%D9%84%D9%88%D9%85%D8%A7%D8%B3%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D8%AA%D8%AF%D8%AE%D9%84-%D8%A7%D9%84%D8%B9%D8%B3%D9%83%D8%B1%D9%8A" target="_blank">إقرأ المزيد ←</a>
-      </div>
-    
-      <div class="news-item">
-        <span class="label">الاقتصاد</span>
-        <h2>الدولار يسجل أدنى مستوياته عالميا.. استراتيجية جديدة لترامب أم ضعف ثقة بالاقتصاد الأمريكي؟</h2>
-        <p>
- في الأسبوع الاقتصادي، الدولار الأميركي يسجّل أدنى مستوياته منذ أربعة أيام. فما أسباب هذا التراجع؟ وهل هو جزء من استرات...</p>
-        <a href="https://www.france24.com/ar/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC/%D8%A7%D9%84%D8%A3%D8%B3%D8%A8%D9%88%D8%B9-%D8%A7%D9%84%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF%D9%8A/20260130-%D8%A7%D9%84%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D9%8A%D8%B3%D8%AC%D9%84-%D8%A3%D8%AF%D9%86%D9%89-%D9%85%D8%B3%D8%AA%D9%88%D9%8A%D8%A7%D8%AA%D9%87-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A7-%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A%D8%A9-%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9-%D9%84%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D8%A3%D9%85-%D8%B6%D8%B9%D9%81-%D8%AB%D9%82%D8%A9-%D8%A8%D8%A7%D9%84%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF-%D8%A7%D9%84%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A" target="_blank">إقرأ المزيد ←</a>
-      </div>
-    
-      <div class="news-item">
-        <span class="label">الاقتصاد</span>
-        <h2>إسبانيا تسوى وضعية نصف مليون مهاجر وتفتح أمامهم جميع الأبواب</h2>
-        <p>
-تستعد الحكومة الإسبانية لتسوية أوضاع نحو 500 ألف من المهاجرين غير النظاميين.الحكومة أكدت أن هذا الإجراء يأتي لدعم الاقت...</p>
-        <a href="https://www.france24.com/ar/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC/%D8%A7%D9%84%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF-%D8%A7%D9%84%D9%8A%D9%88%D9%85/20260127-%D8%A5%D8%B3%D8%A8%D8%A7%D9%86%D9%8A%D8%A7-%D8%AA%D8%B3%D9%88%D9%89-%D9%88%D8%B6%D8%B9%D9%8A%D8%A9-%D9%86%D8%B5%D9%81-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D9%85%D9%87%D8%A7%D8%AC%D8%B1-%D9%88%D8%AA%D9%81%D8%AA%D8%AD-%D8%A3%D9%85%D8%A7%D9%85%D9%87%D9%85-%D8%AC%D9%85%D9%8A%D8%B9-%D8%A7%D9%84%D8%A3%D8%A8%D9%88%D8%A7%D8%A8-1" target="_blank">إقرأ المزيد ←</a>
-      </div>
-    
-      <div class="news-item">
-        <span class="label">الخليج</span>
-        <h2>السعودية: لن نسمح باستخدام مجالنا الجوي في عمل عسكري ضد إيران</h2>
-        <p>  قالت وكالة الأنباء السعودية الرسمية (واس) يوم الثلاثاء إن ولي العهد الأمير محمد بن سلمان أبلغ الرئيس الإيراني مسعود بز...</p>
-        <a href="https://www.alkhaleej.ae/2026-01-28/%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D9%84%D9%86-%D9%86%D8%B3%D9%85%D8%AD-%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D9%85%D8%AC%D8%A7%D9%84%D9%86%D8%A7-%D8%A7%D9%84%D8%AC%D9%88%D9%8A-%D9%81%D9%8A-%D8%B9%D9%85%D9%84-%D8%B9%D8%B3%D9%83%D8%B1%D9%8A-%D8%B6%D8%AF-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-6284491/%D8%A7%D9%84%D8%AE%D9%84%D9%8A%D8%AC-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A/%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9" target="_blank">إقرأ المزيد ←</a>
-      </div>
-    
-      <div class="news-item">
-        <span class="label">الخليج</span>
-        <h2>الإمارات تؤكد التزامها بعدم السماح باستخدام أجوائها أو أراضيها أو مياهها في أي أعمال عسكرية ضد إيران</h2>
-        <p>  أكدت وزارة الخارجية أن دولة الإمارات تلتزم بعدم السماح باستخدام أجوائها أو أراضيها أو مياهها في أي أعمال عسكرية
+
+    <div class="breaking-bar">
+      <div class="breaking-title">عاجل</div>
+      <div class="breaking-content"> مصر: رحلة ساحرة عبر الزمن على نهر النيل.. بين أسرار الفراعنة ومراكب "الدهبية" • جوكوفيتش يهزم سينر ويضرب موعدا مع ألكاراس في نهائي بطولة أستراليا المفتوحة للتنس • الدولار يسجل أدنى مستوياته عالميا.. استراتيجية جديدة لترامب أم ضعف ثقة بالاقتصاد الأمريكي؟ • «داعش» الإرهابي يتبنى الهجوم على مطار نيامي </div>
+    </div>
+
+    <header>
+      <div class="logo">الطارق NEWS</div>
+    </header>
+
+    <nav>
+      <a href="#" onclick="showPage('home')">الرئيسية</a>
+      <a href="#" onclick="showPage('about')">من نحن</a>
+      <a href="#" onclick="showPage('policy')">سياسة الخصوصية</a>
+      <a href="#" onclick="showPage('contact')">اتصل بنا</a>
+    </nav>
+
+    <div id="home" class="static-page active">
+      <div class="container">
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">سياسة</span>
+              <h2 class="card-title">مصر: رحلة ساحرة عبر الزمن على نهر النيل.. بين أسرار الفراعنة ومراكب "الدهبية"</h2>
+              <p class="card-desc">
+في مصر لا يعتبر نهر النيل قلب الحياة النابض فقط، بل جوهرة يقبل عليها السياح من كل العالم لاكتشاف ال...</p>
+              <a href="https://www.france24.com/ar/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC/%D9%81%D9%8A-%D8%B9%D9%85%D9%82-%D8%A7%D9%84%D8%AD%D8%AF%D8%AB/20260130-%D9%85%D8%B5%D8%B1-%D8%B1%D8%AD%D9%84%D8%A9-%D8%B3%D8%A7%D8%AD%D8%B1%D8%A9-%D8%B9%D8%A8%D8%B1-%D8%A7%D9%84%D8%B2%D9%85%D9%86-%D8%B9%D9%84%D9%89-%D9%86%D9%87%D8%B1-%D8%A7%D9%84%D9%86%D9%8A%D9%84-%D8%A8%D9%8A%D9%86-%D8%A3%D8%B3%D8%B1%D8%A7%D8%B1-%D8%A7%D9%84%D9%81%D8%B1%D8%A7%D8%B9%D9%86%D8%A9-%D9%88%D9%85%D8%B1%D8%A7%D9%83%D8%A8-%D8%A7%D9%84%D8%AF%D9%87%D8%A8%D9%8A%D8%A9" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">سياسة</span>
+              <h2 class="card-title">إيران.. ما بين الدبلوماسية والتدخل العسكري!</h2>
+              <p class="card-desc">
+في تصعيد جديد، لم يستبعد الرئيس الأميركي دونالد ترامب شنّ هجوم عسكري على إيران على خلفية قمع الاحتج...</p>
+              <a href="https://www.france24.com/ar/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC/%D8%B6%D9%8A%D9%81-%D8%A7%D9%84%D9%8A%D9%88%D9%85/20260130-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%85%D8%A7-%D8%A8%D9%8A%D9%86-%D8%A7%D9%84%D8%AF%D8%A8%D9%84%D9%88%D9%85%D8%A7%D8%B3%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D8%AA%D8%AF%D8%AE%D9%84-%D8%A7%D9%84%D8%B9%D8%B3%D9%83%D8%B1%D9%8A" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">سياسة</span>
+              <h2 class="card-title">جنوب أفريقيا وإسرائيل تتبادلان طرد ممثليهما الدبلوماسيين وسط توتر متصاعد بسبب الحرب في غزة</h2>
+              <p class="card-desc">
+أعلنت وزارة الخارجية في جنوب أفريقيا الجمعة القائم بالأعمال الإسرائيلي إسرائيل سيدمان شخصا غير مرغو...</p>
+              <a href="https://www.france24.com/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%82-%D8%A7%D9%84%D8%A3%D9%88%D8%B3%D8%B7/20260130-%D8%AC%D9%86%D9%88%D8%A8-%D8%A3%D9%81%D8%B1%D9%8A%D9%82%D9%8A%D8%A7-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D8%A7%D9%84%D9%82%D8%A7%D8%A6%D9%85-%D8%A8%D8%A7%D9%84%D8%A3%D8%B9%D9%85%D8%A7%D9%84-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A-%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86-%D8%BA%D8%B2%D8%A9-%D8%A5%D8%A8%D8%A7%D8%AF%D8%A9-%D8%AC%D9%85%D8%A7%D8%B9%D9%8A%D8%A9-%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A3%D8%B2%D9%85%D8%A9-%D8%AF%D8%A8%D9%84%D9%88%D9%85%D8%A7%D8%B3%D9%8A%D8%A9" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">سياسة</span>
+              <h2 class="card-title">ما الذي تجنيه الإمارات من الدخول في نزاعات دول المنطقة؟</h2>
+              <p class="card-desc">
+وجهة صدى المشرق الامارات، فبعد حل الخلاف الأخير في اليمن مع المملكة العربية السعودية وإعلانها رفض ا...</p>
+              <a href="https://www.france24.com/ar/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC/%D8%B5%D8%AF%D9%89-%D8%A7%D9%84%D9%85%D8%B4%D8%B1%D9%82/20260130-%D9%85%D8%A7-%D8%A7%D9%84%D8%B0%D9%8A-%D8%AA%D8%AC%D9%86%D9%8A%D9%87-%D8%A7%D9%84%D8%A5%D9%85%D8%A7%D8%B1%D8%A7%D8%AA-%D9%85%D9%86-%D8%A7%D9%84%D8%AF%D8%AE%D9%88%D9%84-%D9%81%D9%8A-%D9%86%D8%B2%D8%A7%D8%B9%D8%A7%D8%AA-%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D9%85%D9%86%D8%B7%D9%82%D8%A9" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">سياسة</span>
+              <h2 class="card-title">التوصل إلى اتفاق "شامل" يتضمن وقف إطلاق النار بين السلطات السورية والأكراد</h2>
+              <p class="card-desc">
+أعلنت السلطات السورية الجمعة التوصل إلى اتفاق "شامل" مع قوات سوريا الديمقراطية يتضمن وقف إطلاق النا...</p>
+              <a href="https://www.france24.com/ar/%D8%A7%D9%84%D8%B4%D8%B1%D9%82-%D8%A7%D9%84%D8%A3%D9%88%D8%B3%D8%B7/20260130-%D8%A7%D9%84%D8%AA%D9%88%D8%B5%D9%84-%D8%A7%D8%AA%D9%81%D8%A7%D9%82-%D8%B4%D8%A7%D9%85%D9%84-%D9%8A%D8%AA%D8%B6%D9%85%D9%86-%D9%88%D9%82%D9%81-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D8%A7%D9%84%D9%86%D8%A7%D8%B1-%D8%A8%D9%8A%D9%86-%D8%A7%D9%84%D8%B3%D9%84%D8%B7%D8%A7%D8%AA-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%83%D8%B1%D8%A7%D8%AF" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">رياضة</span>
+              <h2 class="card-title">جوكوفيتش يهزم سينر ويضرب موعدا مع ألكاراس في نهائي بطولة أستراليا المفتوحة للتنس</h2>
+              <p class="card-desc">
+للمرة الأولى منذ 2023 والحادية عشرة في مسيرته، بلغ الصربي المخضرم نوفاك جوكوفيتش نهائي بطولة أسترال...</p>
+              <a href="https://www.france24.com/ar/%D8%B1%D9%8A%D8%A7%D8%B6%D8%A9/20260130-%D8%AC%D9%88%D9%83%D9%88%D9%81%D9%8A%D8%AA%D8%B4-%D8%B1%D9%8A%D8%A7%D8%B6%D8%A9-%D8%B3%D9%8A%D9%86%D8%B1-%D9%87%D8%B2%D9%8A%D9%85%D8%A9-%D8%A7%D9%86%D8%AA%D8%B5%D8%A7%D8%B1-%D9%85%D9%88%D8%A7%D8%AC%D9%87%D8%A9-%D8%A3%D9%84%D9%83%D8%A7%D8%B1%D8%A7%D8%B3-%D9%85%D9%86%D8%A7%D9%81%D8%B3%D8%A9-%D9%86%D9%87%D8%A7%D8%A6%D9%8A-%D8%A8%D8%B7%D9%88%D9%84%D8%A9-%D8%A3%D8%B3%D8%AA%D8%B1%D8%A7%D9%84%D9%8A%D8%A7-%D8%A7%D9%84%D9%85%D9%81%D8%AA%D9%88%D8%AD%D8%A9-%D8%AA%D9%86%D8%B3" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">رياضة</span>
+              <h2 class="card-title">دوري أبطال أوروبا: الريال يصطدم مجددا ببنفيكا في الملحق وباريس سان جرمان يواجه موناكو</h2>
+              <p class="card-desc">
+سيتواجه ريال مدريد الإسباني وبنفيكا البرتغالي مجددًا، فيما سيلعب حامل اللقب باريس سان جرمان الفرنسي...</p>
+              <a href="https://www.france24.com/ar/%D8%B1%D9%8A%D8%A7%D8%B6%D8%A9/20260130-%D8%B1%D9%8A%D8%A7%D9%84-%D9%85%D8%AF%D8%B1%D9%8A%D8%AF-%D8%A8%D9%86%D9%81%D9%8A%D9%83%D8%A7-%D8%A7%D9%84%D9%85%D9%84%D8%AD%D9%82-%D8%A8%D8%A7%D8%B1%D9%8A%D8%B3-%D8%B3%D8%A7%D9%86-%D8%AC%D8%B1%D9%85%D8%A7%D9%86-%D9%85%D9%88%D9%86%D8%A7%D9%83%D9%88-%D8%AB%D9%85%D9%86-%D9%86%D9%87%D8%A7%D8%A6%D9%8A-%D8%AF%D9%88%D8%B1%D9%8A-%D8%A3%D8%A8%D8%B7%D8%A7%D9%84-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">رياضة</span>
+              <h2 class="card-title">روما يتأهل إلى ثمن نهائي الدوري الأوروبي وليون يحسم صدارة المجموعة</h2>
+              <p class="card-desc">
+شهدت الجولة الثامنة والأخيرة من الدوري الأوروبي حسم روما الإيطالي بطاقة التأهل المباشر إلى ثمن النه...</p>
+              <a href="https://www.france24.com/ar/%D8%B1%D9%8A%D8%A7%D8%B6%D8%A9/20260129-%D8%B1%D9%88%D9%85%D8%A7-%D8%AB%D9%85%D9%86-%D9%86%D9%87%D8%A7%D8%A6%D9%8A-%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D9%8A-%D9%84%D9%8A%D9%88%D9%86-%D9%8A%D8%AD%D8%B3%D9%85-%D8%B5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D9%85%D8%AC%D9%85%D9%88%D8%B9%D8%A9-%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">رياضة</span>
+              <h2 class="card-title">الكاف يسلط عقوبات على منتخبي السنغال والمغرب ويرفض إلغاء نتيجة نهائي كأس أمم أفريقيا</h2>
+              <p class="card-desc">
+أعلنت لجنة الانضباط في الاتحاد الأفريقي لكرة القدم (كاف) في بيان الخميس، فرض عقوبات على منتخبي السن...</p>
+              <a href="https://www.france24.com/ar/%D8%B1%D9%8A%D8%A7%D8%B6%D8%A9/20260129-%D8%A7%D9%84%D9%83%D8%A7%D9%81-%D8%A7%D8%AA%D8%AD%D8%A7%D8%AF-%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D9%85%D9%86%D8%AA%D8%AE%D8%A8-%D8%A7%D9%84%D8%B3%D9%86%D8%BA%D8%A7%D9%84-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8-%D9%85%D8%A8%D8%A7%D8%B1%D8%A7%D8%A9-%D9%86%D9%87%D8%A7%D8%A6%D9%8A-%D8%A3%D9%85%D9%85-%D8%A3%D9%81%D8%B1%D9%8A%D9%82%D9%8A%D8%A7" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">رياضة</span>
+              <h2 class="card-title">دوري أبطال أوروبا: برشلونة وليفربول وسيتي إلى ثمن النهائي وباريس سان جرمان وريال مدريد إلى الملحق</h2>
+              <p class="card-desc">
+انتهى دور المجموعة الموحدة في دوري أبطال أوروبا بتأهل برشلونة وليفربول وتوتنهام وتشلسي ومانشستر سيت...</p>
+              <a href="https://www.france24.com/ar/%D8%B1%D9%8A%D8%A7%D8%B6%D8%A9/20260128-%D8%AF%D9%88%D8%B1%D9%8A-%D8%A3%D8%A8%D8%B7%D8%A7%D9%84-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D8%A8%D8%B1%D8%B4%D9%84%D9%88%D9%86%D8%A9-%D9%84%D9%8A%D9%81%D8%B1%D8%A8%D9%88%D9%84-%D8%B3%D9%8A%D8%AA%D9%8A-%D8%AB%D9%85%D9%86-%D8%A7%D9%84%D9%86%D9%87%D8%A7%D8%A6%D9%8A-%D8%A8%D8%A7%D8%B1%D9%8A%D8%B3-%D8%B3%D8%A7%D9%86-%D8%AC%D8%B1%D9%85%D8%A7%D9%86-%D8%B1%D9%8A%D8%A7%D9%84-%D9%85%D8%AF%D8%B1%D9%8A%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%84%D9%85%D9%84%D8%AD%D9%82-%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">اقتصاد</span>
+              <h2 class="card-title">الدولار يسجل أدنى مستوياته عالميا.. استراتيجية جديدة لترامب أم ضعف ثقة بالاقتصاد الأمريكي؟</h2>
+              <p class="card-desc">
+ في الأسبوع الاقتصادي، الدولار الأميركي يسجّل أدنى مستوياته منذ أربعة أيام. فما أسباب هذا التراجع؟ ...</p>
+              <a href="https://www.france24.com/ar/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC/%D8%A7%D9%84%D8%A3%D8%B3%D8%A8%D9%88%D8%B9-%D8%A7%D9%84%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF%D9%8A/20260130-%D8%A7%D9%84%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D9%8A%D8%B3%D8%AC%D9%84-%D8%A3%D8%AF%D9%86%D9%89-%D9%85%D8%B3%D8%AA%D9%88%D9%8A%D8%A7%D8%AA%D9%87-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A7-%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A%D8%A9-%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9-%D9%84%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D8%A3%D9%85-%D8%B6%D8%B9%D9%81-%D8%AB%D9%82%D8%A9-%D8%A8%D8%A7%D9%84%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF-%D8%A7%D9%84%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">اقتصاد</span>
+              <h2 class="card-title">إسبانيا تسوى وضعية نصف مليون مهاجر وتفتح أمامهم جميع الأبواب</h2>
+              <p class="card-desc">
+تستعد الحكومة الإسبانية لتسوية أوضاع نحو 500 ألف من المهاجرين غير النظاميين.الحكومة أكدت أن هذا الإ...</p>
+              <a href="https://www.france24.com/ar/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC/%D8%A7%D9%84%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF-%D8%A7%D9%84%D9%8A%D9%88%D9%85/20260127-%D8%A5%D8%B3%D8%A8%D8%A7%D9%86%D9%8A%D8%A7-%D8%AA%D8%B3%D9%88%D9%89-%D9%88%D8%B6%D8%B9%D9%8A%D8%A9-%D9%86%D8%B5%D9%81-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D9%85%D9%87%D8%A7%D8%AC%D8%B1-%D9%88%D8%AA%D9%81%D8%AA%D8%AD-%D8%A3%D9%85%D8%A7%D9%85%D9%87%D9%85-%D8%AC%D9%85%D9%8A%D8%B9-%D8%A7%D9%84%D8%A3%D8%A8%D9%88%D8%A7%D8%A8-1" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">اقتصاد</span>
+              <h2 class="card-title">لأول مرة في التاريخ...الذهب يتخطى 5100 دولار للأونصة وسط مخاوف مرتبطة بسياسات ترامب</h2>
+              <p class="card-desc">
+في ظل الضبابية الجيوسياسية والتجارية والنقدية السائدة في عهد الرئيس الأمريكي دونالد ترامب، يتأثر سع...</p>
+              <a href="https://www.france24.com/ar/%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF/20260126-%D8%A7%D9%84%D8%B0%D9%87%D8%A8-5100-%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D8%A7%D9%84%D8%A3%D9%88%D9%86%D8%B5%D8%A9-%D8%BA%D8%B1%D9%8A%D9%86%D9%84%D8%A7%D9%86%D8%AF-%D8%B3%D9%8A%D8%A7%D8%B3%D8%A7%D8%AA-%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D8%A7%D9%84%D8%AC%D9%8A%D9%88%D8%B3%D9%8A%D8%A7%D8%B3%D9%8A%D8%A9-%D8%A7%D9%84%D8%AA%D8%AC%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D9%86%D9%82%D8%AF%D9%8A%D8%A9" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">اقتصاد</span>
+              <h2 class="card-title">قطاع النفط والغاز في ليبيا: لماذا لا تساهم ثروات البلاد في تحسين الواقع المعيشي للمواطنين؟</h2>
+              <p class="card-desc">
+ في حلقة اليوم من ضيف الاقتصاد، يحاور خالد كراوي من طرابلس خالد بن عثمان، رئيس مجلس إدارة المجلس ال...</p>
+              <a href="https://www.france24.com/ar/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC/%D8%B6%D9%8A%D9%81-%D8%A7%D9%84%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF/20260126-%D9%82%D8%B7%D8%A7%D8%B9-%D8%A7%D9%84%D9%86%D9%81%D8%B7-%D9%88%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D9%81%D9%8A-%D9%84%D9%8A%D8%A8%D9%8A%D8%A7-%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D9%84%D8%A7-%D8%AA%D8%B3%D8%A7%D9%87%D9%85-%D8%AB%D8%B1%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D8%A8%D9%84%D8%A7%D8%AF-%D9%81%D9%8A-%D8%AA%D8%AD%D8%B3%D9%8A%D9%86-%D8%A7%D9%84%D9%88%D8%A7%D9%82%D8%B9-%D8%A7%D9%84%D9%85%D8%B9%D9%8A%D8%B4%D9%8A-%D9%84%D9%84%D9%85%D9%88%D8%A7%D8%B7%D9%86%D9%8A%D9%86" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">اقتصاد</span>
+              <h2 class="card-title">وفاة رضيعين في فرنسا.. كيف تلوّث حليب الأطفال من نستله ودانون؟</h2>
+              <p class="card-desc">
+أزمة تهز الأسواق الأوروبية بعد إعلان وزارة الصحة الفرنسية عن تحقيقات في وفاة رضيعين إثر تناول حليب ...</p>
+              <a href="https://www.france24.com/ar/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC/%D8%A7%D9%84%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF-%D8%A7%D9%84%D9%8A%D9%88%D9%85/20260123-%D9%88%D9%81%D8%A7%D8%A9-%D8%B1%D8%B6%D9%8A%D8%B9%D9%8A%D9%86-%D9%81%D9%8A-%D9%81%D8%B1%D9%86%D8%B3%D8%A7-%D9%83%D9%8A%D9%81-%D8%AA%D9%84%D9%88%D9%91%D8%AB-%D8%AD%D9%84%D9%8A%D8%A8-%D8%A7%D9%84%D8%A3%D8%B7%D9%81%D8%A7%D9%84-%D9%85%D9%86-%D9%86%D8%B3%D8%AA%D9%84%D9%87-%D9%88%D8%AF%D8%A7%D9%86%D9%88%D9%86" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">منوعات</span>
+              <h2 class="card-title">«داعش» الإرهابي يتبنى الهجوم على مطار نيامي</h2>
+              <p class="card-desc">  تبنى تنظيم «داعش» الإرهابي الجمعة، الهجوم على مطار نيامي في النيجر...
 
 ...</p>
-        <a href="https://www.alkhaleej.ae/2026-01-26/%D8%A7%D9%84%D8%A5%D9%85%D8%A7%D8%B1%D8%A7%D8%AA-%D8%AA%D8%A4%D9%83%D8%AF-%D8%A7%D9%84%D8%AA%D8%B2%D8%A7%D9%85%D9%87%D8%A7-%D8%A8%D8%B9%D8%AF%D9%85-%D8%A7%D9%84%D8%B3%D9%85%D8%A7%D8%AD-%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%A3%D8%AC%D9%88%D8%A7%D8%A6%D9%87%D8%A7-%D8%A3%D9%88-%D8%A3%D8%B1%D8%A7%D8%B6%D9%8A%D9%87%D8%A7-%D8%A3%D9%88-%D9%85%D9%8A%D8%A7%D9%87%D9%87%D8%A7-%D9%81%D9%8A-%D8%A3%D9%8A-%D8%A3%D8%B9%D9%85%D8%A7%D9%84" target="_blank">إقرأ المزيد ←</a>
+              <a href="https://www.alkhaleej.ae/2026-01-30/%D8%AF%D8%A7%D8%B9%D8%B4-%D8%A7%D9%84%D8%A5%D8%B1%D9%87%D8%A7%D8%A8%D9%8A-%D9%8A%D8%AA%D8%A8%D9%86%D9%89-%D8%A7%D9%84%D9%87%D8%AC%D9%88%D9%85-%D8%B9%D9%84%D9%89-%D9%85%D8%B7%D8%A7%D8%B1-%D9%86%D9%8A%D8%A7%D9%85%D9%8A-6289016/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85/%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">منوعات</span>
+              <h2 class="card-title">المكسيك: فرض رسوم أمريكية على دول تساعد كوبا «يهدد بأزمات إنسانية»</h2>
+              <p class="card-desc">  حذّرت رئيسة المكسيك كلاوديا شينباوم الجمعة، من أن فرض واشنطن رسوماً تجارية على الدول التي توفر شحن...</p>
+              <a href="https://www.alkhaleej.ae/2026-01-30/%D8%A7%D9%84%D9%85%D9%83%D8%B3%D9%8A%D9%83-%D9%81%D8%B1%D8%B6-%D8%B1%D8%B3%D9%88%D9%85-%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A%D8%A9-%D8%B9%D9%84%D9%89-%D8%AF%D9%88%D9%84-%D8%AA%D8%B3%D8%A7%D8%B9%D8%AF-%D9%83%D9%88%D8%A8%D8%A7-%D9%8A%D9%87%D8%AF%D8%AF-%D8%A8%D8%A3%D8%B2%D9%85%D8%A7%D8%AA-%D8%A5%D9%86%D8%B3%D8%A7%D9%86%D9%8A%D8%A9-6288971/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85/%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">منوعات</span>
+              <h2 class="card-title">أمريكا تبطئ عمليات نقل معتقلي «داعش» الإرهابي للعراق</h2>
+              <p class="card-desc">  أكدت مصادر مطلعة، أن عمليات الجيش الأمريكي لنقل معتقلين من تنظيم «داعش» الإرهابي من سوريا إلى العر...</p>
+              <a href="https://www.alkhaleej.ae/2026-01-30/%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D8%A7-%D8%AA%D8%A8%D8%B7%D8%A6-%D8%B9%D9%85%D9%84%D9%8A%D8%A7%D8%AA-%D9%86%D9%82%D9%84-%D9%85%D8%B9%D8%AA%D9%82%D9%84%D9%8A-%D8%AF%D8%A7%D8%B9%D8%B4-%D8%A7%D9%84%D8%A5%D8%B1%D9%87%D8%A7%D8%A8%D9%8A-%D9%84%D9%84%D8%B9%D8%B1%D8%A7%D9%82-6288926/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85/%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">منوعات</span>
+              <h2 class="card-title">ترامب: إيران تريد التوصل إلى اتفاق</h2>
+              <p class="card-desc">  أكد الرئيس الأمريكي ‍دونالد ترامب، الجمعة، أن إيران تريد ‌التوصل إلى اتفاق، ‍لكنه لم ​يقدم أي تفاص...</p>
+              <a href="https://www.alkhaleej.ae/2026-01-30/%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%AA%D8%B1%D9%8A%D8%AF-%D8%A7%D9%84%D8%AA%D9%88%D8%B5%D9%84-%D8%A5%D9%84%D9%89-%D8%A7%D8%AA%D9%81%D8%A7%D9%82-6288896/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85/%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
+          <div class="card">
+            <div class="card-img"></div>
+            <div class="card-body">
+              <span class="card-cat">منوعات</span>
+              <h2 class="card-title">مسؤول أوروبي: يمكن استخدام صندوق أزمات بقيمة 500 مليار دولار للدفاع</h2>
+              <p class="card-desc">  أكد مدير آلية الاستقرار الأوروبي، أن صندوق أزمات تزيد قيمته على ‍430 مليار ‌يورو (514 مليار دولار)...</p>
+              <a href="https://www.alkhaleej.ae/2026-01-30/%D9%85%D8%B3%D8%A4%D9%88%D9%84-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D9%8A-%D9%8A%D9%85%D9%83%D9%86-%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%B5%D9%86%D8%AF%D9%88%D9%82-%D8%A3%D8%B2%D9%85%D8%A7%D8%AA-%D8%A8%D9%82%D9%8A%D9%85%D8%A9-500-%D9%85%D9%84%D9%8A%D8%A7%D8%B1-%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D9%84%D9%84%D8%AF%D9%81%D8%A7%D8%B9-6288866/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85/%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9" target="_blank" style="color:var(--accent-color); font-weight:bold; text-decoration:none;">إقرأ المزيد ←</a>
+            </div>
+          </div>
+        
       </div>
-    
-      <div class="news-item">
-        <span class="label">أخبار</span>
-        <h2>«الهجرة الأمريكية» تمنع موقوفاً لديها من حضور جنازة ابنه.. ما قصة الأردني ماهر طرابيشي؟</h2>
-        <p>اتهمت عائلة مواطن أمريكي من مدينة أرلينغتون بولاية تكساس، إدارة الهجرة الأميركية (ICE) بأنّها السبب غير المباشر في وفاة ...</p>
-        <a href="https://alwatannews.net/world/article/4071679/%D8%A7%D9%84%D9%87%D8%AC%D8%B1%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A%D8%A9-%D8%AA%D9%85%D9%86%D8%B9-%D9%85%D9%88%D9%82%D9%88%D9%81%D8%A7-%D9%84%D8%AF%D9%8A%D9%87%D8%A7-%D9%85%D9%86-%D8%AD%D8%B6%D9%88%D8%B1-%D8%AC%D9%86%D8%A7%D8%B2%D8%A9-%D8%A7%D8%A8%D9%86%D9%87-%D9%85%D8%A7-%D9%82%D8%B5%D8%A9-%D8%A7%D9%84%D8%A3%D8%B1%D8%AF%D9%86%D9%8A-%D9%85%D8%A7%D9%87%D8%B1-%D8%B7%D8%B1%D8%A7%D8%A8%D9%8A%D8%B4%D9%8A" target="_blank">إقرأ المزيد ←</a>
-      </div>
-    
-      <div class="news-item">
-        <span class="label">أخبار</span>
-        <h2>الاتحاد الأوروبي يتجه لتصنيف الحرس الثوري الإيراني «منظمة إرهابية»</h2>
-        <p>أفادت مسؤولة العلاقات الخارجية في الاتحاد الأوروبي كايا كالاس أن الاتحاد قد يقرر الخميس إدراج الحرس الثوري الإيراني على ...</p>
-        <a href="https://alwatannews.net/world/article/4071662/%D8%A7%D9%84%D8%A7%D8%AA%D8%AD%D8%A7%D8%AF-%D8%A7%D9%84%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D9%8A-%D9%8A%D8%AA%D8%AC%D9%87-%D9%84%D8%AA%D8%B5%D9%86%D9%8A%D9%81-%D8%A7%D9%84%D8%AD%D8%B1%D8%B3-%D8%A7%D9%84%D8%AB%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A-%D9%85%D9%86%D8%B8%D9%85%D8%A9-%D8%A5%D8%B1%D9%87%D8%A7%D8%A8%D9%8A%D8%A9" target="_blank">إقرأ المزيد ←</a>
-      </div>
-    
-      <div class="news-item">
-        <span class="label">منوعات</span>
-        <h2>المكسيك: فرض رسوم أمريكية على دول تساعد كوبا «يهدد بأزمات إنسانية»</h2>
-        <p>  حذّرت رئيسة المكسيك كلاوديا شينباوم الجمعة، من أن فرض واشنطن رسوماً تجارية على الدول التي توفر شحنات من النفط
+    </div>
 
-...</p>
-        <a href="https://www.alkhaleej.ae/2026-01-30/%D8%A7%D9%84%D9%85%D9%83%D8%B3%D9%8A%D9%83-%D9%81%D8%B1%D8%B6-%D8%B1%D8%B3%D9%88%D9%85-%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A%D8%A9-%D8%B9%D9%84%D9%89-%D8%AF%D9%88%D9%84-%D8%AA%D8%B3%D8%A7%D8%B9%D8%AF-%D9%83%D9%88%D8%A8%D8%A7-%D9%8A%D9%87%D8%AF%D8%AF-%D8%A8%D8%A3%D8%B2%D9%85%D8%A7%D8%AA-%D8%A5%D9%86%D8%B3%D8%A7%D9%86%D9%8A%D8%A9-6288971/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85/%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9" target="_blank">إقرأ المزيد ←</a>
-      </div>
-    
-      <div class="news-item">
-        <span class="label">منوعات</span>
-        <h2>أمريكا تبطئ عمليات نقل معتقلي «داعش» الإرهابي للعراق</h2>
-        <p>  أكدت مصادر مطلعة، أن عمليات الجيش الأمريكي لنقل معتقلين من تنظيم «داعش» الإرهابي من سوريا إلى العراق تباطأت هذا الأسبو...</p>
-        <a href="https://www.alkhaleej.ae/2026-01-30/%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D8%A7-%D8%AA%D8%A8%D8%B7%D8%A6-%D8%B9%D9%85%D9%84%D9%8A%D8%A7%D8%AA-%D9%86%D9%82%D9%84-%D9%85%D8%B9%D8%AA%D9%82%D9%84%D9%8A-%D8%AF%D8%A7%D8%B9%D8%B4-%D8%A7%D9%84%D8%A5%D8%B1%D9%87%D8%A7%D8%A8%D9%8A-%D9%84%D9%84%D8%B9%D8%B1%D8%A7%D9%82-6288926/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85/%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9" target="_blank">إقرأ المزيد ←</a>
-      </div>
-    
-      <div class="news-item">
-        <span class="label">عمون</span>
-        <h2>جمعية السنابل تحتفل بعيد ميلاد الملك </h2>
-        <p>عمون - قامت جمعية السنابل بفعالية الاحتفال بعيد ميلاد جلالة الملك عبدالله الثاني بزراعة عدد مائه وخمسون شجره حرجيه في غا...</p>
-        <a href="https://www.ammonnews.net/article/976787" target="_blank">إقرأ المزيد ←</a>
-      </div>
-    
-      <div class="news-item">
-        <span class="label">عمون</span>
-        <h2>العيسوي يرعى الاحتفال الوطني بمناسبة عيد ميلاد الملك</h2>
-        <p>عمون - يرعى يوسف حسن العيسوي رئيس الديوان الملكي الهاشمي العامر مساء اليوم الجمعة، الاحتفال الوطني الكبير والذي سيقام بم...</p>
-        <a href="https://www.ammonnews.net/article/976754" target="_blank">إقرأ المزيد ←</a>
-      </div>
-    
+    <div id="about" class="static-page">
+      <h1>من نحن</h1>
+      <p>شبكة الطارق نيوز هي مؤسسة إخبارية مستقلة تهدف لنقل الخبر من قلب الحدث بكل موضوعية ومهنية.</p>
+    </div>
+
+    <div id="policy" class="static-page">
+      <h1>سياسة الخصوصية</h1>
+      <p>نحن نحترم خصوصيتكم تماماً. المعلومات المجموعة في هذا الموقع تستخدم فقط لتحسين تجربة المستخدم.</p>
+    </div>
+
+    <div id="contact" class="static-page">
+      <h1>اتصل بنا</h1>
+      <p>للتواصل معنا: tareq@example.com <br> أو عبر منصات التواصل الاجتماعي.</p>
+    </div>
+
+    <footer>
+      <p><b>الطارق نيوز</b> - جميع الحقوق محفوظة &copy; 2026</p>
+    </footer>
+
+    <script>
+      function showPage(pageId) {
+        document.querySelectorAll('.static-page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        window.scrollTo(0,0);
+      }
+    </script>
   </body>
   </html>
